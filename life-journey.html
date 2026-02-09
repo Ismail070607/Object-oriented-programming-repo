@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Life Journey - Positives & Negatives</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+
+        header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        header p {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            background: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stats-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 10px;
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .sentiment-chart {
+            margin-top: 20px;
+        }
+
+        .chart-bar {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+            height: 30px;
+            background: #f0f0f0;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .bar-segment {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.85em;
+        }
+
+        .positive-bar {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        }
+
+        .negative-bar {
+            background: linear-gradient(135deg, #ee0979 0%, #ff6a00 100%);
+        }
+
+        .mixed-bar {
+            background: linear-gradient(135deg, #fbb04d 0%, #ff9966 100%);
+        }
+
+        .timeline-container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            grid-column: 1 / -1;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .timeline-item {
+            margin-bottom: 50px;
+            width: 48%;
+            position: relative;
+        }
+
+        .timeline-item.left {
+            left: 0;
+            text-align: right;
+            padding-right: 40px;
+        }
+
+        .timeline-item.right {
+            left: 52%;
+            text-align: left;
+            padding-left: 40px;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border: 4px solid #667eea;
+            border-radius: 50%;
+            top: 30px;
+            right: -35px;
+        }
+
+        .timeline-item.right .timeline-dot {
+            right: auto;
+            left: -35px;
+            border-color: #667eea;
+        }
+
+        .timeline-content {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .timeline-year {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .timeline-title {
+            font-size: 1.2em;
+            font-weight: 700;
+            color: #333;
+            margin: 10px 0;
+        }
+
+        .timeline-date {
+            color: #999;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+
+        .event-details {
+            margin-top: 15px;
+            font-size: 0.95em;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .event-sentiment {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin: 10px 0;
+            color: white;
+        }
+
+        .sentiment-positive {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        }
+
+        .sentiment-negative {
+            background: linear-gradient(135deg, #ee0979 0%, #ff6a00 100%);
+        }
+
+        .sentiment-mixed {
+            background: linear-gradient(135deg, #fbb04d 0%, #ff9966 100%);
+        }
+
+        .positives-negatives {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .positive-list, .negative-list {
+            font-size: 0.9em;
+        }
+
+        .positive-list h4, .negative-list h4 {
+            margin-bottom: 8px;
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+
+        .positive-list h4 {
+            color: #11998e;
+        }
+
+        .negative-list h4 {
+            color: #ee0979;
+        }
+
+        .positive-list ul, .negative-list ul {
+            list-style-position: inside;
+            padding-left: 10px;
+        }
+
+        .positive-list li, .negative-list li {
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        .positive-list li:before {
+            color: #11998e;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+
+        .negative-list li:before {
+            color: #ee0979;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+
+        .impact-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            background: #f0f0f0;
+            border-radius: 15px;
+            font-size: 0.8em;
+            color: #666;
+            font-weight: 600;
+            margin: 5px 0;
+        }
+
+        .impact-high {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .impact-medium {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .impact-low {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        @media (max-width: 900px) {
+            .timeline::before {
+                left: 30px;
+            }
+
+            .timeline-item {
+                width: 100%;
+                left: 0 !important;
+                text-align: left !important;
+                padding-left: 80px !important;
+                padding-right: 0 !important;
+            }
+
+            .timeline-dot {
+                right: auto;
+                left: 15px;
+                top: 20px;
+            }
+
+            .timeline-content {
+                border-left: 4px solid #667eea;
+            }
+
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .controls {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+
+        .empty-state p {
+            font-size: 1.1em;
+            margin: 10px 0;
+        }
+
+        header h2 {
+            font-size: 1.3em;
+            margin-top: 15px;
+            opacity: 0.9;
+            font-weight: 400;
+        }
+
+        .event-category {
+            display: inline-block;
+            padding: 4px 10px;
+            background: #667eea;
+            color: white;
+            border-radius: 15px;
+            font-size: 0.8em;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+
+        .lessons {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #ddd;
+        }
+
+        .lessons h4 {
+            font-size: 0.9em;
+            color: #667eea;
+            margin-bottom: 8px;
+        }
+
+        .lessons ul {
+            list-style-position: inside;
+            padding-left: 10px;
+        }
+
+        .lessons li {
+            font-size: 0.85em;
+            color: #666;
+            margin-bottom: 4px;
+            font-style: italic;
+        }
+
+        .custom-event-form {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+            display: none;
+        }
+
+        .custom-event-form.show {
+            display: block;
+        }
+
+        .custom-event-form h3 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: inherit;
+            font-size: 1em;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .form-actions button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-submit {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-submit:hover {
+            background: #764ba2;
+        }
+
+        .btn-cancel {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .btn-cancel:hover {
+            background: #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📖 My Life Journey</h1>
+            <h2>A reflection on positives and negatives that shaped me</h2>
+        </header>
+
+        <div class="controls">
+            <button class="btn active" onclick="filterEvents('all')">All Events</button>
+            <button class="btn" onclick="filterEvents('positive')">✨ Positives</button>
+            <button class="btn" onclick="filterEvents('negative')">⚠️ Negatives</button>
+            <button class="btn" onclick="filterEvents('mixed')">🔀 Mixed</button>
+            <button class="btn" onclick="toggleForm()">➕ Add Event</button>
+        </div>
+
+        <div class="main-grid">
+            <div class="stats-card">
+                <h2>📊 Life Statistics</h2>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number" id="totalEvents">0</div>
+                        <div class="stat-label">Total Events</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="positiveCount">0</div>
+                        <div class="stat-label">Positive</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="negativeCount">0</div>
+                        <div class="stat-label">Negative</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="mixedCount">0</div>
+                        <div class="stat-label">Mixed</div>
+                    </div>
+                </div>
+
+                <div class="sentiment-chart">
+                    <h3 style="margin-bottom: 15px; font-size: 0.95em; color: #333;">Sentiment Distribution</h3>
+                    <div class="chart-bar">
+                        <div class="bar-segment positive-bar" id="positiveBar" style="flex: 0;">Positive</div>
+                        <div class="bar-segment negative-bar" id="negativeBar" style="flex: 0;">Negative</div>
+                        <div class="bar-segment mixed-bar" id="mixedBar" style="flex: 0;">Mixed</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stats-card">
+                <h2>🎯 Key Insights</h2>
+                <div style="margin-top: 20px; line-height: 1.8;">
+                    <p><strong>Overall Life Sentiment:</strong> <span id="overallSentiment">Loading...</span></p>
+                    <p style="margin-top: 15px;"><strong>Most Common Category:</strong> <span id="commonCategory">Loading...</span></p>
+                    <p style="margin-top: 15px;"><strong>High Impact Events:</strong> <span id="highImpactCount">0</span></p>
+                    <p style="margin-top: 15px;"><strong>Life Lesson:</strong></p>
+                    <p style="margin-top: 10px; font-style: italic; color: #667eea;">"Every setback is a setup for a comeback. The journey of life is more important than the destination."</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="timeline-container">
+            <h2 style="margin-bottom: 30px;">⏳ Timeline of Life Events</h2>
+            <div class="timeline" id="timeline">
+                <div class="empty-state">
+                    <p>No events to display. Add your first life event!</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="custom-event-form" id="eventForm">
+            <h3>Add a Life Event</h3>
+            <form id="eventFormInput" onsubmit="addNewEvent(event)">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="eventTitle">Event Title *</label>
+                        <input type="text" id="eventTitle" required placeholder="e.g., Started new job">
+                    </div>
+                    <div class="form-group">
+                        <label for="eventDate">Date *</label>
+                        <input type="date" id="eventDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="eventCategory">Category *</label>
+                        <select id="eventCategory" required>
+                            <option value="career">Career</option>
+                            <option value="education">Education</option>
+                            <option value="relationship">Relationship</option>
+                            <option value="health">Health</option>
+                            <option value="personal-growth">Personal Growth</option>
+                            <option value="family">Family</option>
+                            <option value="travel">Travel</option>
+                            <option value="achievement">Achievement</option>
+                            <option value="challenge">Challenge</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="eventSentiment">Sentiment *</label>
+                        <select id="eventSentiment" required>
+                            <option value="positive">Positive</option>
+                            <option value="negative">Negative</option>
+                            <option value="mixed">Mixed</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="eventImpact">Impact Level *</label>
+                        <select id="eventImpact" required>
+                            <option value="low">Low</option>
+                            <option value="medium">Medium</option>
+                            <option value="high">High</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="eventDescription">Description *</label>
+                    <textarea id="eventDescription" required placeholder="Describe this event..."></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="form-actions button btn-submit">Add Event</button>
+                    <button type="button" class="form-actions button btn-cancel" onclick="toggleForm()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Sample life events data
+        const sampleEvents = [
+            {
+                id: '1',
+                title: 'Started University',
+                description: 'Began my journey at State University studying Computer Science',
+                date: '2015-09-01',
+                year: 2015,
+                category: 'education',
+                sentiment: 'positive',
+                positives: ['Gained valuable knowledge', 'Made lifelong friendships', 'Developed critical thinking'],
+                negatives: ['High stress', 'Financial burden'],
+                impact: 'high',
+                lessons: ['Education is an investment in yourself', 'Connections matter']
+            },
+            {
+                id: '2',
+                title: 'First Major Failure',
+                description: 'Failed a critical engineering exam in my second year',
+                date: '2016-05-15',
+                year: 2016,
+                category: 'challenge',
+                sentiment: 'negative',
+                positives: ['Learned resilience', 'Improved study habits'],
+                negatives: ['Loss of confidence', 'Disappointment'],
+                impact: 'high',
+                lessons: ['Failure is not the end', 'Asking for help is strength']
+            },
+            {
+                id: '3',
+                title: 'First Tech Job',
+                description: 'Landed my first internship at a startup as a junior developer',
+                date: '2017-06-01',
+                year: 2017,
+                category: 'career',
+                sentiment: 'positive',
+                positives: ['Real-world experience', 'Mentorship', 'First paycheck'],
+                negatives: ['Imposter syndrome', 'Long hours'],
+                impact: 'high',
+                lessons: ['Everyone starts somewhere', 'Practical experience is valuable']
+            },
+            {
+                id: '4',
+                title: 'Health Challenge',
+                description: 'Struggled with anxiety and stress-related health issues',
+                date: '2018-03-20',
+                year: 2018,
+                category: 'health',
+                sentiment: 'negative',
+                positives: ['Became aware of mental health importance', 'Sought professional help'],
+                negatives: ['Physical exhaustion', 'Mental turmoil'],
+                impact: 'high',
+                lessons: ['Mental health is important', 'Self-care is not selfish']
+            },
+            {
+                id: '5',
+                title: 'Graduation Day',
+                description: 'Successfully completed my Bachelor\'s degree',
+                date: '2019-05-25',
+                year: 2019,
+                category: 'achievement',
+                sentiment: 'positive',
+                positives: ['Achieved major goal', 'Felt pride and satisfaction'],
+                negatives: ['Uncertainty about future'],
+                impact: 'high',
+                lessons: ['Hard work pays off', 'Support system is crucial']
+            },
+            {
+                id: '6',
+                title: 'Career Transition',
+                description: 'Moved to a senior role at a larger tech company',
+                date: '2020-02-15',
+                year: 2020,
+                category: 'career',
+                sentiment: 'mixed',
+                positives: ['Salary increase', 'Expanded responsibilities'],
+                negatives: ['Higher pressure', 'Imposter syndrome returned'],
+                impact: 'high',
+                lessons: ['Growth comes with discomfort', 'Adaptability is key']
+            },
+            {
+                id: '7',
+                title: 'International Travel',
+                description: 'Solo traveled to Southeast Asia for a month',
+                date: '2022-06-01',
+                year: 2022,
+                category: 'travel',
+                sentiment: 'positive',
+                positives: ['Discovered new cultures', 'Built confidence', 'Expanded perspective'],
+                negatives: ['Travel fatigue', 'Loneliness at times'],
+                impact: 'high',
+                lessons: ['World is bigger than my bubble', 'Experiences matter more than possessions']
+            },
+            {
+                id: '8',
+                title: 'My Open Source Project',
+                description: 'Created an open-source project that gained community attention',
+                date: '2023-01-15',
+                year: 2023,
+                category: 'personal-growth',
+                sentiment: 'positive',
+                positives: ['Built something meaningful', 'Contributed to community'],
+                negatives: ['Time-consuming', 'Pressure to maintain'],
+                impact: 'medium',
+                lessons: ['Passion projects fuel creativity', 'Giving back is rewarding']
+            }
+        ];
+
+        let allEvents = [...sampleEvents];
+        let currentFilter = 'all';
+
+        function updateStats() {
+            const total = allEvents.length;
+            const positive = allEvents.filter(e => e.sentiment === 'positive').length;
+            const negative = allEvents.filter(e => e.sentiment === 'negative').length;
+            const mixed = allEvents.filter(e => e.sentiment === 'mixed').length;
+
+            document.getElementById('totalEvents').textContent = total;
+            document.getElementById('positiveCount').textContent = positive;
+            document.getElementById('negativeCount').textContent = negative;
+            document.getElementById('mixedCount').textContent = mixed;
+
+            const positivePercent = total > 0 ? (positive / total) * 100 : 0;
+            const negativePercent = total > 0 ? (negative / total) * 100 : 0;
+            const mixedPercent = total > 0 ? (mixed / total) * 100 : 0;
+
+            document.getElementById('positiveBar').style.flex = positivePercent;
+            document.getElementById('negativeBar').style.flex = negativePercent;
+            document.getElementById('mixedBar').style.flex = mixedPercent;
+
+            const highImpactCount = allEvents.filter(e => e.impact === 'high').length;
+            document.getElementById('highImpactCount').textContent = highImpactCount;
+
+            const sentiment = positivePercent > 60 ? '✨ Mostly Positive' : negativePercent > 60 ? '⚠️ Mostly Challenging' : '🔀 Balanced';
+            document.getElementById('overallSentiment').textContent = sentiment;
+
+            const categories = {};
+            allEvents.forEach(e => {
+                categories[e.category] = (categories[e.category] || 0) + 1;
+            });
+            const mostCommon = Object.keys(categories).reduce((a, b) => categories[a] > categories[b] ? a : b) || 'N/A';
+            document.getElementById('commonCategory').textContent = mostCommon.charAt(0).toUpperCase() + mostCommon.slice(1);
+        }
+
+        function renderTimeline() {
+            const timelineDiv = document.getElementById('timeline');
+
+            let filteredEvents = currentFilter === 'all' 
+                ? allEvents 
+                : allEvents.filter(e => e.sentiment === currentFilter);
+
+            if (filteredEvents.length === 0) {
+                timelineDiv.innerHTML = '<div class="empty-state"><p>No events match your filter.</p></div>';
+                return;
+            }
+
+            // Sort by date
+            filteredEvents.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+            let html = '';
+            filteredEvents.forEach((event, index) => {
+                const isLeft = index % 2 === 0;
+                const sentimentClass = `sentiment-${event.sentiment}`;
+                const impactClass = `impact-${event.impact}`;
+
+                html += `
+                    <div class="timeline-item ${isLeft ? 'left' : 'right'}">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-year">${event.year}</div>
+                            <div class="timeline-title">${event.title}</div>
+                            <div class="timeline-date">${new Date(event.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</div>
+                            <div class="event-sentiment ${sentimentClass}">${event.sentiment.toUpperCase()}</div>
+                            <span class="event-category">#${event.category}</span>
+                            <span class="impact-badge ${impactClass}">Impact: ${event.impact.toUpperCase()}</span>
+                            <div class="event-details">${event.description}</div>
+                            
+                            <div class="positives-negatives">
+                                <div class="positive-list">
+                                    <h4>✨ Positives:</h4>
+                                    <ul>
+                                        ${event.positives.map(p => `<li>${p}</li>`).join('')}
+                                    </ul>
+                                </div>
+                                <div class="negative-list">
+                                    <h4>⚠️ Negatives:</h4>
+                                    <ul>
+                                        ${event.negatives.map(n => `<li>${n}</li>`).join('')}
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            ${event.lessons ? `
+                                <div class="lessons">
+                                    <h4>💡 Lessons Learned:</h4>
+                                    <ul>
+                                        ${event.lessons.map(l => `<li>${l}</li>`).join('')}
+                                    </ul>
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+            });
+
+            timelineDiv.innerHTML = html;
+        }
+
+        function filterEvents(type) {
+            currentFilter = type;
+            document.querySelectorAll('.controls .btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            renderTimeline();
+        }
+
+        function toggleForm() {
+            document.getElementById('eventForm').classList.toggle('show');
+        }
+
+        function addNewEvent(e) {
+            e.preventDefault();
+            
+            const title = document.getElementById('eventTitle').value;
+            const date = document.getElementById('eventDate').value;
+            const category = document.getElementById('eventCategory').value;
+            const sentiment = document.getElementById('eventSentiment').value;
+            const impact = document.getElementById('eventImpact').value;
+            const description = document.getElementById('eventDescription').value;
+
+            const newEvent = {
+                id: Date.now().toString(),
+                title,
+                description,
+                date,
+                year: new Date(date).getFullYear(),
+                category,
+                sentiment,
+                positives: ['Achievement', 'Learning experience'],
+                negatives: [],
+                impact,
+                lessons: []
+            };
+
+            allEvents.push(newEvent);
+            updateStats();
+            renderTimeline();
+            toggleForm();
+            document.getElementById('eventFormInput').reset();
+            
+            // Auto filter to show the new event
+            currentFilter = 'all';
+            document.querySelectorAll('.controls .btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.controls .btn')[0].classList.add('active');
+        }
+
+        // Initial render
+        updateStats();
+        renderTimeline();
+    </script>
+</body>
+</html>

@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional CV</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .cv-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .cv-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .cv-header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            font-size: 0.95em;
+            margin-top: 15px;
+        }
+
+        .contact-info span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .cv-body {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 0;
+            min-height: calc(100vh - 200px);
+        }
+
+        .main-content {
+            padding: 40px;
+            border-right: 2px solid #f0f0f0;
+        }
+
+        .sidebar {
+            padding: 40px;
+            background: #f9f9f9;
+        }
+
+        .professional-summary {
+            margin-bottom: 40px;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .professional-summary h2 {
+            color: #667eea;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 8px;
+        }
+
+        .section {
+            margin-bottom: 35px;
+        }
+
+        .section h2 {
+            color: #667eea;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 8px;
+        }
+
+        .section h3 {
+            color: #333;
+            font-size: 1.1em;
+            margin-top: 15px;
+            margin-bottom: 5px;
+        }
+
+        .section-item {
+            margin-bottom: 20px;
+        }
+
+        .job-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 5px;
+        }
+
+        .job-title {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .company {
+            color: #667eea;
+            font-weight: 500;
+        }
+
+        .date {
+            color: #888;
+            font-size: 0.9em;
+            font-style: italic;
+        }
+
+        .description {
+            color: #555;
+            line-height: 1.5;
+            margin-top: 8px;
+            padding-left: 20px;
+        }
+
+        .description ul {
+            list-style-position: inside;
+            margin-top: 8px;
+        }
+
+        .description li {
+            margin-bottom: 5px;
+            color: #666;
+        }
+
+        .education-item {
+            margin-bottom: 15px;
+        }
+
+        .degree {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .institution {
+            color: #667eea;
+            font-size: 0.95em;
+        }
+
+        .grad-year {
+            color: #888;
+            font-size: 0.9em;
+        }
+
+        .skill-category {
+            margin-bottom: 20px;
+        }
+
+        .skill-category-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 0.95em;
+        }
+
+        .skill-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .skill-tag {
+            background: #667eea;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 500;
+        }
+
+        .project-item {
+            margin-bottom: 15px;
+            padding: 12px;
+            background: white;
+            border-left: 4px solid #667eea;
+            border-radius: 4px;
+        }
+
+        .project-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .project-tech {
+            font-size: 0.85em;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .project-description {
+            color: #666;
+            font-size: 0.9em;
+            line-height: 1.4;
+        }
+
+        .certification {
+            color: #666;
+            margin-bottom: 8px;
+            padding-left: 15px;
+        }
+
+        .certification:before {
+            content: "✓ ";
+            color: #667eea;
+            font-weight: bold;
+            margin-left: -15px;
+            margin-right: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .cv-body {
+                grid-template-columns: 1fr;
+            }
+
+            .main-content {
+                border-right: none;
+                border-bottom: 2px solid #f0f0f0;
+            }
+
+            .contact-info {
+                flex-direction: column;
+            }
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .cv-container {
+                box-shadow: none;
+                border-radius: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="cv-container">
+        <div class="cv-header">
+            <h1>John Doe</h1>
+            <div class="contact-info">
+                <span>📧 john.doe@email.com</span>
+                <span>📱 +1 (555) 123-4567</span>
+                <span>📍 New York, NY</span>
+                <span>🔗 linkedin.com/in/johndoe</span>
+                <span>💻 github.com/johndoe</span>
+            </div>
+        </div>
+
+        <div class="cv-body">
+            <!-- Main Content -->
+            <div class="main-content">
+                <!-- Professional Summary -->
+                <div class="professional-summary">
+                    <h2>Professional Summary</h2>
+                    <p>Innovative and detail-oriented Full Stack Developer with 5+ years of experience designing and implementing robust software solutions. Proven expertise in TypeScript, React, and Node.js with a strong track record of delivering scalable, high-performance applications. Passionate about clean code, object-oriented programming principles, and mentoring junior developers.</p>
+                </div>
+
+                <!-- Experience -->
+                <div class="section">
+                    <h2>Professional Experience</h2>
+
+                    <div class="section-item">
+                        <div class="job-header">
+                            <span class="job-title">Senior Full Stack Developer</span>
+                            <span class="date">2022 - Present</span>
+                        </div>
+                        <div class="company">Tech Innovation Corp</div>
+                        <div class="description">
+                            <ul>
+                                <li>Led development of microservices architecture serving 100K+ daily users</li>
+                                <li>Implemented TypeScript interfaces and design patterns for improved code maintainability</li>
+                                <li>Mentored 3 junior developers, improving team code quality by 30%</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="section-item">
+                        <div class="job-header">
+                            <span class="job-title">Full Stack Developer</span>
+                            <span class="date">2020 - 2022</span>
+                        </div>
+                        <div class="company">Digital Solutions Inc</div>
+                        <div class="description">
+                            <ul>
+                                <li>Developed responsive web applications using React and Node.js</li>
+                                <li>Designed and implemented REST APIs with proper object-oriented architecture</li>
+                                <li>Improved application performance by 40% through code optimization</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="section-item">
+                        <div class="job-header">
+                            <span class="job-title">Junior Developer</span>
+                            <span class="date">2019 - 2020</span>
+                        </div>
+                        <div class="company">StartUp Labs</div>
+                        <div class="description">
+                            <ul>
+                                <li>Built full-stack features using HTML, CSS, JavaScript, and Python</li>
+                                <li>Collaborated with UX team to implement pixel-perfect designs</li>
+                                <li>Participated in code reviews and learned best practices</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Projects -->
+                <div class="section">
+                    <h2>Featured Projects</h2>
+
+                    <div class="project-item">
+                        <div class="project-name">E-Commerce Platform</div>
+                        <div class="project-tech">React | Node.js | MongoDB | TypeScript</div>
+                        <div class="project-description">Full-featured e-commerce platform with payment integration and real-time inventory management. Implemented using SOLID principles and design patterns.</div>
+                    </div>
+
+                    <div class="project-item">
+                        <div class="project-name">Analytics Dashboard</div>
+                        <div class="project-tech">Next.js | GraphQL | PostgreSQL</div>
+                        <div class="project-description">Real-time data visualization dashboard processing 50M+ data points daily. Built with scalable architecture and comprehensive TypeScript interfaces.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <!-- Skills -->
+                <div class="section">
+                    <h2>Technical Skills</h2>
+
+                    <div class="skill-category">
+                        <div class="skill-category-title">Languages</div>
+                        <div class="skill-list">
+                            <span class="skill-tag">TypeScript</span>
+                            <span class="skill-tag">JavaScript</span>
+                            <span class="skill-tag">Python</span>
+                            <span class="skill-tag">SQL</span>
+                        </div>
+                    </div>
+
+                    <div class="skill-category">
+                        <div class="skill-category-title">Frontend</div>
+                        <div class="skill-list">
+                            <span class="skill-tag">React</span>
+                            <span class="skill-tag">Next.js</span>
+                            <span class="skill-tag">CSS3</span>
+                            <span class="skill-tag">HTML5</span>
+                        </div>
+                    </div>
+
+                    <div class="skill-category">
+                        <div class="skill-category-title">Backend</div>
+                        <div class="skill-list">
+                            <span class="skill-tag">Node.js</span>
+                            <span class="skill-tag">Express</span>
+                            <span class="skill-tag">APIs</span>
+                            <span class="skill-tag">GraphQL</span>
+                        </div>
+                    </div>
+
+                    <div class="skill-category">
+                        <div class="skill-category-title">Databases</div>
+                        <div class="skill-list">
+                            <span class="skill-tag">MongoDB</span>
+                            <span class="skill-tag">PostgreSQL</span>
+                            <span class="skill-tag">Firebase</span>
+                        </div>
+                    </div>
+
+                    <div class="skill-category">
+                        <div class="skill-category-title">Tools & DevOps</div>
+                        <div class="skill-list">
+                            <span class="skill-tag">Git</span>
+                            <span class="skill-tag">Docker</span>
+                            <span class="skill-tag">AWS</span>
+                            <span class="skill-tag">CI/CD</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Education -->
+                <div class="section">
+                    <h2>Education</h2>
+
+                    <div class="education-item">
+                        <div class="degree">Bachelor of Science</div>
+                        <div class="institution">Computer Science</div>
+                        <div class="institution">State University</div>
+                        <div class="grad-year">Graduated: 2019</div>
+                    </div>
+
+                    <div class="education-item">
+                        <div class="degree">Full Stack Development</div>
+                        <div class="institution">Bootcamp Academy</div>
+                        <div class="grad-year">Completed: 2019</div>
+                    </div>
+                </div>
+
+                <!-- Certifications -->
+                <div class="section">
+                    <h2>Certifications</h2>
+                    <div class="certification">AWS Certified Cloud Practitioner</div>
+                    <div class="certification">TypeScript Advanced Patterns</div>
+                    <div class="certification">SOLID Principles in OOP</div>
+                    <div class="certification">React Performance Optimization</div>
+                </div>
+
+                <!-- Languages -->
+                <div class="section">
+                    <h2>Languages</h2>
+                    <div class="skill-list">
+                        <span class="skill-tag">English - Native</span>
+                        <span class="skill-tag">Spanish - Fluent</span>
+                        <span class="skill-tag">French - Intermediate</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
